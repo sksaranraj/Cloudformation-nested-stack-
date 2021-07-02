@@ -1,0 +1,15 @@
+Resources:
+#IMPORTING THE IAM STACK
+  VPCStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://nested-stack-demo.s3.amazonaws.com/vpc.yaml
+      TimeoutInMinutes: 10
+  Ec2Stack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: VPCStack
+    Properties:
+      TemplateURL: !Sub https://nested-stack-demo.s3.amazonaws.com/ec2.yaml
+      TimeoutInMinutes: 10
+      Parameters:
+        VpcId: !GetAtt VPCStack.Outputs.VpcId

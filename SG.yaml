@@ -1,0 +1,22 @@
+Parameters:    
+  VpcId:
+    Type: 'AWS::EC2::VPC::Id'
+    Description: 'The VPC ID'
+
+Resources:
+#Bastion 01 server & it is components
+#SG for the bastion servers--------------------------------------------
+  SGBASTION:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Public-Server-SG
+      GroupName: Public-Server-SG
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3389
+          ToPort: 3389
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: '-1'
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref VpcId
